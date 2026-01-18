@@ -17,15 +17,17 @@
 # 详细许可条款请参阅项目根目录下的LICENSE文件。
 # 使用本代码即表示您同意遵守上述原则和LICENSE中的所有条款。
 
-# 基础配置
-PLATFORM = "xhs"  # 平台，xhs | dy | ks | bili | wb | tieba | zhihu
-KEYWORDS = "编程副业,编程兼职"  # 关键词搜索配置，以英文逗号分隔
-LOGIN_TYPE = "qrcode"  # qrcode or phone or cookie
+# ==================== 基础配置 ====================
+# 🎬 电影研究专用配置 - 中国电影观众传播影响力研究
+# 研究对象：《流浪地球2》《消失的她》《长安三万里》《封神第一部》《孤注一掷》
+
+PLATFORM = "xhs"  # 平台选择: xhs(小红书) | dy(抖音) | wb(微博)
+KEYWORDS = "流浪地球2"  # 关键词搜索配置（建议一次爬一部电影）
+LOGIN_TYPE = "qrcode"  # 登录方式: qrcode(二维码) | phone(手机) | cookie
 COOKIES = ""
-CRAWLER_TYPE = (
-    "search"  # 爬取类型，search(关键词搜索) | detail(帖子详情)| creator(创作者主页数据)
-)
-# 是否开启 IP 代理
+CRAWLER_TYPE = "search"  # 爬取类型: search(关键词搜索) | detail(帖子详情) | creator(创作者主页)
+
+# 是否开启 IP 代理（建议关闭，避免配置复杂度）
 ENABLE_IP_PROXY = False
 
 # 代理IP池数量
@@ -34,13 +36,12 @@ IP_PROXY_POOL_COUNT = 2
 # 代理IP提供商名称
 IP_PROXY_PROVIDER_NAME = "kuaidaili"  # kuaidaili | wandouhttp
 
-# 设置为True不会打开浏览器（无头浏览器）
-# 设置False会打开一个浏览器
-# 小红书如果一直扫码登录不通过，打开浏览器手动过一下滑动验证码
-# 抖音如果一直提示失败，打开浏览器看下是否扫码登录之后出现了手机号验证，如果出现了手动过一下再试。
+# 是否使用无头浏览器模式
+# False = 打开浏览器窗口（推荐用于首次登录和调试）
+# True = 后台运行（需要先完成登录保存状态）
 HEADLESS = False
 
-# 是否保存登录状态
+# 是否保存登录状态（强烈建议开启，避免重复登录）
 SAVE_LOGIN_STATE = True
 
 # ==================== CDP (Chrome DevTools Protocol) 配置 ====================
@@ -70,33 +71,36 @@ BROWSER_LAUNCH_TIMEOUT = 60
 # 设置为False可以保持浏览器运行，便于调试
 AUTO_CLOSE_BROWSER = True
 
-# 数据保存类型选项配置,支持六种类型：csv、db、json、sqlite、excel、postgres, 最好保存到DB，有排重的功能。
-SAVE_DATA_OPTION = "json"  # csv or db or json or sqlite or excel or postgres
+# ==================== 数据存储配置 ====================
+# 数据保存格式：json(推荐) | csv | excel
+# 注意：不使用数据库存储，所有数据保存在 data/ 目录下
+SAVE_DATA_OPTION = "json"
 
-# 用户浏览器缓存的浏览器文件配置
-USER_DATA_DIR = "%s_user_data_dir"  # %s will be replaced by platform name
+# 用户浏览器缓存目录配置
+USER_DATA_DIR = "%s_user_data_dir"  # %s 会被替换为平台名称 (xhs/dy/wb)
 
-# 爬取开始页数 默认从第一页开始
+# ==================== 爬取控制参数 ====================
+# 爬取开始页数（默认从第一页开始）
 START_PAGE = 1
 
-# 爬取视频/帖子的数量控制
-CRAWLER_MAX_NOTES_COUNT = 15
+# 爬取笔记/视频的数量（建议增加以获取更多数据）
+CRAWLER_MAX_NOTES_COUNT = 100
 
-# 并发爬虫数量控制
+# 并发爬虫数量（建议设为1，避免被封）
 MAX_CONCURRENCY_NUM = 1
 
-# 是否开启爬媒体模式（包含图片或视频资源），默认不开启爬媒体
+# 是否下载媒体文件（图片/视频）- 建议关闭以节省空间
 ENABLE_GET_MEIDAS = False
 
-# 是否开启爬评论模式, 默认开启爬评论
+# ==================== 评论爬取配置 ====================
+# 是否爬取评论（必须开启！评论是研究的核心数据）
 ENABLE_GET_COMMENTS = True
 
-# 爬取一级评论的数量控制(单视频/帖子)
-CRAWLER_MAX_COMMENTS_COUNT_SINGLENOTES = 10
+# 每个笔记/视频爬取的一级评论数量（建议增加）
+CRAWLER_MAX_COMMENTS_COUNT_SINGLENOTES = 50
 
-# 是否开启爬二级评论模式, 默认不开启爬二级评论
-# 老版本项目使用了 db, 则需参考 schema/tables.sql line 287 增加表字段
-ENABLE_GET_SUB_COMMENTS = False
+# 是否爬取二级评论（建议开启，获取更完整的讨论数据）
+ENABLE_GET_SUB_COMMENTS = True
 
 # 词云相关
 # 是否开启生成评论词云图
