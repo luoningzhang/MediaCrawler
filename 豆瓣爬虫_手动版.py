@@ -25,12 +25,12 @@ from bs4 import BeautifulSoup
 
 # ==================== 配置区域 ====================
 
-# 【重要】在这里粘贴你的豆瓣 Cookie
+# Cookie（可选！豆瓣讨论大部分内容不登录也能访问）
+# 如果爬取失败提示需要登录，再添加 Cookie
 # 获取方法：浏览器登录豆瓣 -> F12 -> Network -> 刷新 -> 找到请求 -> Headers -> Cookie
 COOKIES = """
-bid=xxx; douban-fav-remind=1; __utma=xxx; __utmz=xxx; ...
 """
-# 示例：填入完整的 Cookie 字符串
+# 留空即可！如果遇到限制再填写
 
 # 豆瓣电影讨论URL
 DOUBAN_DISCUSSION_URL = "https://movie.douban.com/subject/36035676/discussion/?start=0&sort_by=time"
@@ -352,22 +352,16 @@ class ManualDoubanCrawler:
 
 def main():
     print("="*70)
-    print("🎬 豆瓣电影讨论爬虫 - 手动版（无需 Selenium）")
+    print("🎬 豆瓣电影讨论爬虫 - 手动版（最简单！）")
     print("="*70)
     print(f"📅 爬取时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     print(f"🎯 目标电影: {MOVIE_NAME}")
     print(f"📊 爬取限制: {MAX_DISCUSSIONS} 个讨论，每个 {MAX_REPLIES} 条回复")
     print("="*70)
 
-    if not COOKIES.strip() or 'xxx' in COOKIES:
-        print("\n⚠️  警告：未设置 Cookie！")
-        print("如果爬取失败，请按照以下步骤获取 Cookie：")
-        print("1. 在浏览器中登录豆瓣")
-        print("2. 按 F12 打开开发者工具")
-        print("3. 刷新页面，在 Network 标签找到讨论页面的请求")
-        print("4. 右键 -> Copy -> Copy Headers")
-        print("5. 找到其中的 Cookie 部分，复制到本脚本的 COOKIES 变量中")
-        print("\n尝试继续爬取（可能会失败）...\n")
+    if not COOKIES.strip():
+        print("\n💡 提示：当前未设置 Cookie（没关系，大部分内容不需要登录）")
+        print("   如果遇到访问限制，再按提示添加 Cookie 即可\n")
 
     crawler = ManualDoubanCrawler()
     crawler.crawl()
