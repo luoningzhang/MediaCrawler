@@ -8,8 +8,8 @@
 import requests
 from bs4 import BeautifulSoup
 
-# 测试 URL
-url = "https://movie.douban.com/subject/35943560/discussion/?start=0&sort_by=time"
+# 测试 URL（流浪地球2 - 肯定有讨论）
+url = "https://movie.douban.com/subject/36035676/discussion/?start=0&sort_by=time"
 
 print("🔍 正在访问豆瓣...")
 print(f"URL: {url}\n")
